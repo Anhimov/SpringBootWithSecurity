@@ -2,21 +2,19 @@ package ru.anhimov.SpringBootWithSecurity.controller;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.anhimov.SpringBootWithSecurity.model.Person;
 import ru.anhimov.SpringBootWithSecurity.service.PeopleService;
 
 @Controller
 @RequestMapping("/register")
-public class RegistrationController {
+public class RegisterController {
     private final PeopleService peopleService;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationController(PeopleService peopleService, PasswordEncoder passwordEncoder) {
+    public RegisterController(PeopleService peopleService, PasswordEncoder passwordEncoder) {
         this.peopleService = peopleService;
         this.passwordEncoder = passwordEncoder;
     }

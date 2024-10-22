@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,17 +48,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/greeting").hasRole("USER")
-                        .anyRequest().permitAll())
+                        .requestMatchers("/auth/login", "/register", "/error").permitAll()
+                        .requestMatchers("/greeting/getUserInfo").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/greeting/**").authenticated()
+                )
                 .formLogin(formLogin -> formLogin
-                        .defaultSuccessUrl("/greeting", true))
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/process_login")
+                        .defaultSuccessUrl("/greeting", true)
+                        .failureUrl("/auth/login?error")
+                )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/"))
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/h2-console/**"))
+                        .logoutSuccessUrl("/")
+                )
                 .headers(headers -> headers
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                )
                 .build();
     }
 }
