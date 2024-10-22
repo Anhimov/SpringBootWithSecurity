@@ -52,7 +52,8 @@ public class SecurityConfig {
                         .failureUrl("/auth/login?error")
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/")
+                        .logoutUrl("/auth/logout")
+                        .logoutSuccessUrl("/auth/login")
                 )
                 .headers(headers -> headers
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)

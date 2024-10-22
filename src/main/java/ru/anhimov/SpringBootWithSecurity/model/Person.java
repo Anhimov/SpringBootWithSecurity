@@ -16,7 +16,6 @@ import java.util.Objects;
 @Table(name = "person")
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
 public class Person implements UserDetails {
     @Id
