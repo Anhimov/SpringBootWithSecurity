@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Component
 public class RegFormPersonValidator implements Validator {
-    private PeopleService peopleService;
+    private final PeopleService peopleService;
 
     @Autowired
     public RegFormPersonValidator(PeopleService peopleService) {
