@@ -2,12 +2,14 @@ package ru.anhimov.SpringBootWithSecurity.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.anhimov.SpringBootWithSecurity.model.Person;
 import ru.anhimov.SpringBootWithSecurity.repositories.PeopleRepository;
 
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class PeopleService {
     private final PeopleRepository peopleRepository;
 
@@ -20,9 +22,9 @@ public class PeopleService {
         return peopleRepository.findByUsername(username);
     }
 
-    public void save(Person person) {
+    @Transactional
+    public void register(Person person) {
         enrichPerson(person);
-        person.setRole("ROLE_USER");
         peopleRepository.save(person);
     }
 

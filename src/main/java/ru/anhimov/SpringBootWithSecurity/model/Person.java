@@ -1,11 +1,9 @@
 package ru.anhimov.SpringBootWithSecurity.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,20 +21,22 @@ public class Person implements UserDetails {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Size(max = 100)
-    @NotNull
+    @Size(max = 100, message = "Username should not be greater then 100 chars")
+    @NotEmpty(message = "Username cannot be empty.")
     @Column(name = "username", nullable = false, length = 100)
     private String username;
 
-    @NotNull
+    @NotNull(message = "Year of birth cannot be null.")
+    @Min(value = 1900, message = "Year of birth must be after 1900.")
+    @Max(value = 2024, message = "Year of birth must be before or equal to 2024.")
     @Column(name = "year_of_birth", nullable = false)
     private Integer yearOfBirth;
 
-    @NotNull
+    @NotEmpty(message = "Password cannot be empty.")
     @Column(name = "password", nullable = false)
     private String password;
 
-    @NotNull
+    @NotEmpty(message = "Role cannot be empty.")
     @Column(name = "role", nullable = false)
     private String role;
 
