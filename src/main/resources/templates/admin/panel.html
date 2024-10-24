@@ -20,5 +20,22 @@
 
     <input type="submit" value="Назначить роль" />
 </form>
+<script>
+    document.getElementById('person').addEventListener('change', function() {
+        var personId = this.value;
+        var roleSelect = document.getElementById('role');
+
+        fetch('/admin/role/' + personId)
+            .then(response => response.text())
+            .then(role => {
+                for (var i = 0; i < roleSelect.options.length; i++) {
+                    if (roleSelect.options[i].value === role) {
+                        roleSelect.options[i].selected = true;
+                    }
+                }
+            })
+            .catch(error => console.log('Error fetching role:', error));
+    });
+</script>
 </body>
 </html>

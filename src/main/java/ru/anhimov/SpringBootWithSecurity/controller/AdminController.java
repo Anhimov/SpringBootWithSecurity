@@ -32,4 +32,11 @@ public class AdminController {
         peopleService.changePersonRole(person.getId(), person.getRole());
         return "redirect:/admin";
     }
+
+    @GetMapping("/role/{id}")
+    @ResponseBody
+    public String getRoleByPersonId(@PathVariable("id") int id) {
+        Person person = peopleService.findById(id);
+        return person.getRole();
+    }
 }
